@@ -3,234 +3,1064 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book an appointment</title>
+  <title>Clinic Booking</title>
+  <meta name="description" content="Book an appointment with the clinic.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root { --fg: #1d2330; --muted: #5b6475; --line: #d9dee8; --accent: #1f6feb; --ok: #1a7f37; --bad: #b42318; --bg: #ffffff; --soft: #f5f7fb; }
-    @media (prefers-color-scheme: dark) {
-      :root { --fg: #e8ecf3; --muted: #9aa4b5; --line: #2c3442; --accent: #5a9bff; --ok: #3fb950; --bad: #ff7b72; --bg: #111521; --soft: #181e2b; }
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #fafafa;
+      --bg-hover: #f2f2f2;
+      --fg: #0a0a0a;
+      --fg-2: #4d4d4d;
+      --muted: #8f8f8f;
+      --border: #ebebeb;
+      --border-strong: #d6d6d6;
+      --btn-bg: #0a0a0a;
+      --btn-fg: #ffffff;
+      --btn-hover: #383838;
+      --focus: #0070f3;
+      --blue-bg: #f0f7ff;
+      --green: #1a7f37;
+      --green-bg: #effaf2;
+      --red: #d8262c;
+      --red-bg: #fff2f2;
+      --amber: #a35200;
+      --amber-bg: #fff8eb;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 2px 2px rgba(0,0,0,.04), 0 8px 16px -4px rgba(0,0,0,.06);
+      --shadow-lg: 0 1px 1px rgba(0,0,0,.02), 0 8px 16px -4px rgba(0,0,0,.04), 0 24px 32px -8px rgba(0,0,0,.08);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; color: var(--fg); background: var(--bg); }
-    main { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
-    h1 { font-size: 1.6rem; margin: 0 0 4px; }
-    h2 { font-size: 1.1rem; margin: 28px 0 10px; }
-    p.muted { color: var(--muted); margin: 0 0 16px; }
-    .card { border: 1px solid var(--line); border-radius: 10px; padding: 16px; background: var(--soft); }
-    label { display: block; font-weight: 600; margin: 12px 0 4px; }
-    input, select, button { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
-    button { background: var(--accent); color: #fff; border: none; cursor: pointer; font-weight: 600; margin-top: 14px; }
-    button:disabled { opacity: .5; cursor: default; }
-    button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .slots { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-    .slot { display: flex; justify-content: space-between; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; background: var(--bg); }
-    .slot.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
-    .slot[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
-    .tag { font-size: .8rem; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
-    .tag.free { color: var(--ok); }
-    .tag.taken { color: var(--bad); }
-    .msg { margin-top: 12px; padding: 10px 12px; border-radius: 8px; }
-    .msg.ok { border: 1px solid var(--ok); color: var(--ok); }
-    .msg.err { border: 1px solid var(--bad); color: var(--bad); }
-    .confirm dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; }
-    .confirm dt { color: var(--muted); }
-    .confirm dd { margin: 0; word-break: break-all; }
-    .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
-    .row button { margin-top: 0; width: auto; }
-    .hidden { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --bg-subtle: #0a0a0a;
+        --bg-hover: #1a1a1a;
+        --fg: #ededed;
+        --fg-2: #a1a1a1;
+        --muted: #707070;
+        --border: #242424;
+        --border-strong: #3a3a3a;
+        --btn-bg: #ededed;
+        --btn-fg: #0a0a0a;
+        --btn-hover: #cccccc;
+        --focus: #3291ff;
+        --blue-bg: #06193a;
+        --green: #3fb950;
+        --green-bg: #0b2414;
+        --red: #ff6166;
+        --red-bg: #2a0c0d;
+        --amber: #f5a524;
+        --amber-bg: #2a1a03;
+        --shadow-sm: none;
+        --shadow-md: 0 0 0 1px #242424;
+        --shadow-lg: 0 0 0 1px #2e2e2e, 0 16px 32px -8px rgba(0,0,0,.6);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      font: 14px/1.5 var(--font); -webkit-font-smoothing: antialiased;
+      font-feature-settings: "ss01", "cv11";
+    }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+    .mono { font-family: var(--mono); font-size: 12.5px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* ---------- Header ---------- */
+    header.top {
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      backdrop-filter: saturate(180%) blur(8px); -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .bar { max-width: 1080px; margin: 0 auto; padding: 0 16px; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -.01em; }
+    .mark { width: 24px; height: 24px; border-radius: 6px; background: var(--fg); color: var(--bg); display: grid; place-items: center; }
+    .mark svg { width: 14px; height: 14px; }
+    .spacer { flex: 1; }
+    .status { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--fg-2); font-size: 13px; background: var(--bg); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .status.ok .dot { background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+    .status.err .dot { background: var(--red); box-shadow: 0 0 0 3px var(--red-bg); }
+
+    /* ---------- Tabs ---------- */
+    nav.tabs { max-width: 1080px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; }
+    .tab { position: relative; background: none; border: 0; padding: 10px 10px 12px; color: var(--fg-2); font-weight: 500; border-radius: 6px; }
+    .tab:hover { color: var(--fg); }
+    .tab[aria-selected="true"] { color: var(--fg); }
+    .tab[aria-selected="true"]::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; background: var(--fg); border-radius: 2px; }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 32px 16px 80px; }
+    .page-head { margin-bottom: 24px; }
+    h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.04em; font-weight: 600; margin: 0 0 6px; }
+    h2 { font-size: 16px; letter-spacing: -.01em; font-weight: 600; margin: 0; }
+    h3 { font-size: 13px; font-weight: 500; color: var(--fg-2); margin: 0 0 10px; }
+    .lede { color: var(--fg-2); margin: 0; font-size: 15px; }
+
+    /* ---------- Primitives ---------- */
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+    .card-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .card-body { padding: 20px; }
+    .card-foot { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--bg-subtle); border-radius: 0 0 var(--radius-lg) var(--radius-lg); color: var(--fg-2); font-size: 13px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 40px; padding: 0 16px; border-radius: 6px; border: 1px solid transparent;
+      font-weight: 500; white-space: nowrap; transition: background .15s, border-color .15s, color .15s, opacity .15s;
+    }
+    .btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
+    .btn-primary:hover:not(:disabled) { background: var(--btn-hover); }
+    .btn-secondary { background: var(--bg); border-color: var(--border-strong); }
+    .btn-secondary:hover:not(:disabled) { background: var(--bg-hover); }
+    .btn-ghost { background: transparent; color: var(--fg-2); }
+    .btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--fg); }
+    .btn-danger { background: var(--bg); color: var(--red); border-color: var(--border-strong); }
+    .btn-danger:hover:not(:disabled) { background: var(--red-bg); border-color: var(--red); }
+    .btn-danger-solid { background: var(--red); color: #fff; }
+    .btn-sm { height: 32px; padding: 0 12px; font-size: 13px; }
+    .btn-block { width: 100%; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    .field { display: grid; gap: 6px; margin-bottom: 16px; }
+    .field label { font-size: 13px; font-weight: 500; color: var(--fg-2); }
+    .input {
+      height: 40px; width: 100%; padding: 0 12px; border-radius: 6px;
+      border: 1px solid var(--border-strong); background: var(--bg); color: var(--fg);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .input::placeholder { color: var(--muted); }
+    .input:hover { border-color: var(--muted); }
+    .input:focus { outline: none; border-color: var(--fg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--fg) 12%, transparent); }
+    .input[aria-invalid="true"] { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-bg); }
+    .hint { font-size: 12.5px; color: var(--muted); min-height: 18px; }
+    .hint.err { color: var(--red); }
+    .inline-row { display: flex; gap: 8px; }
+    .inline-row .input { flex: 1; min-width: 0; }
+
+    .badge { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+    .badge.confirmed { background: var(--green-bg); color: var(--green); }
+    .badge.cancelled { background: var(--bg-hover); color: var(--fg-2); }
+
+    .alert { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px; border: 1px solid; }
+    .alert svg { flex: none; width: 16px; height: 16px; margin-top: 1px; }
+    .alert.err { background: var(--red-bg); color: var(--red); border-color: color-mix(in srgb, var(--red) 30%, transparent); }
+    .alert.warn { background: var(--amber-bg); color: var(--amber); border-color: color-mix(in srgb, var(--amber) 30%, transparent); }
+    .alert.info { background: var(--blue-bg); color: var(--focus); border-color: color-mix(in srgb, var(--focus) 30%, transparent); }
+
+    .spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .skeleton { background: linear-gradient(90deg, var(--bg-hover) 25%, var(--bg-subtle) 37%, var(--bg-hover) 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+    @media (prefers-reduced-motion: reduce) { .spinner, .skeleton { animation: none; } * { transition: none !important; scroll-behavior: auto !important; } }
+
+    /* ---------- Connect ---------- */
+    .connect { max-width: 440px; margin: 48px auto 0; }
+    .connect .card-body p { color: var(--fg-2); margin: 0 0 20px; }
+
+    /* ---------- Steps ---------- */
+    .steps { display: flex; gap: 8px; align-items: center; margin: 0 0 20px; padding: 0; list-style: none; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+    .steps li { display: flex; align-items: center; gap: 8px; }
+    .steps .n { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border-strong); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+    .steps li.active { color: var(--fg); }
+    .steps li.active .n { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .steps li.done { color: var(--fg-2); }
+    .steps li.done .n { background: var(--green-bg); color: var(--green); border-color: transparent; }
+    .steps .sep { width: 24px; height: 1px; background: var(--border-strong); }
+
+    /* ---------- Booking layout ---------- */
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+    .aside { position: sticky; top: 80px; }
+    @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } .aside { position: static; } }
+
+    .toolbar { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 16px; }
+    .segmented { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-subtle); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+    .segmented::-webkit-scrollbar { display: none; }
+    .seg { border: 0; background: transparent; height: 30px; padding: 0 12px; border-radius: 6px; color: var(--fg-2); font-weight: 500; font-size: 13px; white-space: nowrap; }
+    .seg:hover { color: var(--fg); }
+    .seg[aria-pressed="true"] { background: var(--bg); color: var(--fg); box-shadow: var(--shadow-md); }
+    .tz { color: var(--muted); font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; }
+    .tz svg { width: 14px; height: 14px; }
+
+    .days { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(92px, 1fr); gap: 8px; overflow-x: auto; padding: 2px 2px 8px; margin: 0 -2px 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+    .day {
+      scroll-snap-align: start; text-align: left; border: 1px solid var(--border); background: var(--bg);
+      border-radius: var(--radius); padding: 10px 12px; display: grid; gap: 2px; transition: border-color .15s, background .15s;
+    }
+    .day:hover:not(:disabled) { border-color: var(--border-strong); background: var(--bg-subtle); }
+    .day .dow { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+    .day .date { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+    .day .count { font-size: 12px; color: var(--fg-2); }
+    .day[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
+    .day:disabled { opacity: .5; cursor: not-allowed; }
+    .day:disabled .count { color: var(--muted); }
+
+    .provider-group { padding: 16px 0; border-top: 1px solid var(--border); }
+    .provider-group:first-child { border-top: 0; padding-top: 4px; }
+    .provider-name { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-weight: 500; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: #fff; flex: none; }
+    .provider-name small { color: var(--muted); font-weight: 400; font-size: 12.5px; }
+    .times { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+    .time {
+      height: 40px; border: 1px solid var(--border-strong); background: var(--bg); border-radius: 6px;
+      font-weight: 500; font-variant-numeric: tabular-nums; transition: border-color .15s, background .15s, color .15s;
+    }
+    .time:hover:not(:disabled) { border-color: var(--fg); }
+    .time[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .time:disabled { color: var(--muted); background: var(--bg-subtle); border-color: var(--border); text-decoration: line-through; cursor: not-allowed; }
+
+    .empty { text-align: center; padding: 40px 16px; color: var(--fg-2); }
+    .empty svg { width: 32px; height: 32px; color: var(--muted); margin-bottom: 8px; }
+    .empty strong { display: block; color: var(--fg); font-weight: 500; margin-bottom: 4px; }
+
+    .summary { display: grid; gap: 12px; padding: 16px; border: 1px dashed var(--border-strong); border-radius: var(--radius); margin-bottom: 20px; }
+    .summary.filled { border-style: solid; border-color: var(--border); background: var(--bg-subtle); }
+    .summary-row { display: flex; gap: 10px; align-items: flex-start; }
+    .summary-row svg { width: 16px; height: 16px; color: var(--fg-2); margin-top: 2px; flex: none; }
+    .summary-row div { display: grid; }
+    .summary-row strong { font-weight: 500; }
+    .summary-row span { color: var(--fg-2); font-size: 13px; }
+    .summary.placeholder { color: var(--muted); text-align: center; padding: 24px 16px; }
+
+    /* ---------- Confirmation ---------- */
+    .success-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--green-bg); color: var(--green); display: grid; place-items: center; margin-bottom: 12px; }
+    .success-icon svg { width: 20px; height: 20px; }
+    .details { display: grid; grid-template-columns: max-content 1fr; gap: 10px 16px; margin: 16px 0 20px; font-size: 13.5px; }
+    .details dt { color: var(--fg-2); }
+    .details dd { margin: 0; min-width: 0; }
+    .id-copy { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; }
+    .id-copy code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--fg-2); flex: none; }
+    .icon-btn:hover { background: var(--bg-hover); color: var(--fg); }
+    .icon-btn svg { width: 14px; height: 14px; }
+    .actions { display: grid; gap: 8px; }
+    .confirm-cancel { display: grid; gap: 8px; padding: 12px; border: 1px solid color-mix(in srgb, var(--red) 30%, transparent); background: var(--red-bg); border-radius: var(--radius); }
+    .confirm-cancel p { margin: 0; color: var(--red); font-size: 13px; }
+    .confirm-cancel .inline-row .btn { flex: 1; }
+
+    /* ---------- Manage ---------- */
+    .manage { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .manage { grid-template-columns: minmax(0, 1fr); } }
+    .list { list-style: none; margin: 0; padding: 0; }
+    .list-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 14px 20px; border-top: 1px solid var(--border); }
+    .list-item:first-child { border-top: 0; }
+    .list-item .when { font-weight: 500; }
+    .list-item .meta { color: var(--fg-2); font-size: 13px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 2px; }
+    .list-item .right { display: flex; align-items: center; gap: 8px; }
+    .list-item .confirm-cancel { grid-column: 1 / -1; }
+
+    /* ---------- Toasts ---------- */
+    .toasts { position: fixed; bottom: 16px; right: 16px; left: 16px; display: grid; justify-items: end; gap: 8px; z-index: 50; pointer-events: none; }
+    .toast {
+      pointer-events: auto; display: flex; gap: 10px; align-items: flex-start; max-width: 380px; width: 100%;
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 12px 14px; box-shadow: var(--shadow-lg); font-size: 13.5px; animation: toast-in .2s ease;
+    }
+    .toast svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+    .toast.ok svg { color: var(--green); }
+    .toast.err svg { color: var(--red); }
+    .toast.warn svg { color: var(--amber); }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    [hidden] { display: none !important; }
+    @media (max-width: 520px) {
+      main { padding-top: 24px; }
+      h1 { font-size: 26px; }
+      .card-body { padding: 16px; }
+      .card-head { padding: 14px 16px; }
+      .list-item { padding: 14px 16px; grid-template-columns: 1fr; }
+      .status .label { display: none; }
+      .steps li:not(.active) .lbl { display: none; }
+      .steps .sep { width: 16px; }
+    }
   </style>
 </head>
 <body>
-<main>
-  <h1>Book an appointment</h1>
-  <p class="muted">Pick a free time, enter your details, and confirm.</p>
-
-  <div class="card">
-    <label for="apiKey">API key</label>
-    <div class="row">
-      <input id="apiKey" type="password" autocomplete="off" placeholder="Paste the API key">
-      <button id="saveKey" class="secondary" type="button">Save</button>
+  <header class="top">
+    <div class="bar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+        </span>
+        Clinic Booking
+      </div>
+      <div class="spacer"></div>
+      <span id="status" class="status" role="status"><span class="dot"></span><span class="label">Not connected</span></span>
+      <button id="changeKey" class="btn btn-ghost btn-sm" type="button" hidden>API key</button>
     </div>
-  </div>
+    <nav class="tabs" role="tablist" aria-label="Sections" id="tabs" hidden>
+      <button class="tab" role="tab" id="tab-book" aria-controls="view-book" aria-selected="true" type="button">Book</button>
+      <button class="tab" role="tab" id="tab-manage" aria-controls="view-manage" aria-selected="false" type="button">My bookings</button>
+    </nav>
+  </header>
 
-  <h2>Available slots</h2>
-  <div class="row" style="margin-bottom:10px">
-    <select id="providerFilter" aria-label="Filter by provider"><option value="">All providers</option></select>
-    <button id="refresh" class="secondary" type="button">Refresh</button>
-  </div>
-  <ul id="slots" class="slots" aria-live="polite"><li class="muted">Enter the API key to load slots.</li></ul>
+  <main>
+    <!-- Connect -->
+    <section id="view-connect" class="connect" hidden>
+      <div class="card">
+        <div class="card-body">
+          <h1 style="font-size:24px">Connect</h1>
+          <p>Enter the API key to load available appointments. It stays in this browser.</p>
+          <form id="connectForm" novalidate>
+            <div class="field">
+              <label for="apiKey">API key</label>
+              <input id="apiKey" class="input mono" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your key">
+              <div id="apiKeyHint" class="hint" aria-live="polite"></div>
+            </div>
+            <button id="connectBtn" class="btn btn-primary btn-block" type="submit">Connect</button>
+          </form>
+        </div>
+      </div>
+    </section>
 
-  <h2>Your details</h2>
-  <form id="bookForm" class="card" novalidate>
-    <label for="name">Full name</label>
-    <input id="name" name="name" autocomplete="name" required>
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required>
-    <button id="bookBtn" type="submit" disabled>Book selected slot</button>
-    <div id="bookMsg"></div>
-  </form>
+    <!-- Book -->
+    <section id="view-book" role="tabpanel" aria-labelledby="tab-book" hidden>
+      <div class="page-head">
+        <h1>Book an appointment</h1>
+        <p class="lede">Choose a time that works for you. It takes less than a minute.</p>
+      </div>
 
-  <div id="confirmation" class="card confirm hidden" style="margin-top:16px"></div>
+      <ol class="steps" id="steps" aria-label="Progress">
+        <li data-step="1" class="active"><span class="n">1</span><span class="lbl">Choose a time</span></li>
+        <li aria-hidden="true"><span class="sep"></span></li>
+        <li data-step="2"><span class="n">2</span><span class="lbl">Your details</span></li>
+        <li aria-hidden="true"><span class="sep"></span></li>
+        <li data-step="3"><span class="n">3</span><span class="lbl">Confirmed</span></li>
+      </ol>
 
-  <h2>Look up a booking</h2>
-  <form id="lookupForm" class="card" novalidate>
-    <div class="row">
-      <input id="bookingId" placeholder="Booking ID">
-      <button type="submit" class="secondary">Look up</button>
-    </div>
-    <div id="lookupMsg"></div>
-  </form>
-</main>
+      <div class="layout">
+        <div class="card">
+          <div class="card-body">
+            <div class="toolbar">
+              <div class="segmented" id="providers" role="group" aria-label="Filter by provider"></div>
+              <span class="tz">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"/><path d="M8 4.5V8l2.25 1.5" stroke-linecap="round"/></svg>
+                <span id="tzLabel"></span>
+              </span>
+            </div>
+            <div class="days" id="days" role="group" aria-label="Choose a day"></div>
+            <div id="times" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <aside class="aside">
+          <div class="card" id="bookingCard">
+            <div class="card-head"><h2>Your appointment</h2></div>
+            <div class="card-body">
+              <div id="summary" class="summary placeholder">Select a time to continue</div>
+              <form id="bookForm" novalidate>
+                <div id="formAlert"></div>
+                <div class="field">
+                  <label for="name">Full name</label>
+                  <input id="name" class="input" autocomplete="name" placeholder="Ada Obi" aria-describedby="nameHint">
+                  <div id="nameHint" class="hint"></div>
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" class="input" type="email" inputmode="email" autocomplete="email" placeholder="ada@example.com" aria-describedby="emailHint">
+                  <div id="emailHint" class="hint">We'll use this to find your bookings.</div>
+                </div>
+                <button id="bookBtn" class="btn btn-primary btn-block" type="submit" disabled>Confirm booking</button>
+              </form>
+            </div>
+            <div class="card-foot">Free cancellation at any time from My bookings.</div>
+          </div>
+          <div class="card" id="confirmCard" hidden></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Manage -->
+    <section id="view-manage" role="tabpanel" aria-labelledby="tab-manage" hidden>
+      <div class="page-head">
+        <h1>My bookings</h1>
+        <p class="lede">Find your appointments by email, or look one up by its booking ID.</p>
+      </div>
+      <div class="manage">
+        <div class="card">
+          <div class="card-head">
+            <form id="findForm" class="inline-row" style="flex:1" novalidate>
+              <label for="findEmail" class="sr-only">Email</label>
+              <input id="findEmail" class="input" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+              <button class="btn btn-primary" type="submit" id="findBtn">Find</button>
+            </form>
+          </div>
+          <div id="results">
+            <div class="empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke-linecap="round"/></svg>
+              <strong>No bookings loaded</strong>
+              Enter the email you booked with.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Look up by ID</h2></div>
+          <div class="card-body">
+            <form id="lookupForm" novalidate>
+              <div class="field" style="margin-bottom:12px">
+                <label for="lookupId" class="sr-only">Booking ID</label>
+                <input id="lookupId" class="input mono" spellcheck="false" placeholder="Booking ID">
+              </div>
+              <button class="btn btn-secondary btn-block" type="submit">Look up</button>
+            </form>
+            <div id="lookupResult" style="margin-top:16px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script>
 (function () {
+  'use strict';
   const $ = (id) => document.getElementById(id);
-  const state = { slots: [], selectedId: null };
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const AVATAR_COLORS = ['#0070f3', '#7928ca', '#f5a524', '#17c964', '#ff0080', '#00b8d9'];
 
-  function loadKey() {
-    try { return localStorage.getItem('clinicApiKey') || ''; } catch (e) { return ''; }
+  const state = {
+    key: '',
+    slots: [],
+    provider: 'all',
+    day: null,
+    selectedId: null,
+    submitting: false,
+    pending: null,       // { payloadHash, idemKey } reused across network retries
+    cooldownUntil: 0,
+    manageEmail: '',
+    manageCursor: null,
+    manageItems: [],
+  };
+
+  // ---------- storage (never required) ----------
+  const store = {
+    get(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } },
+  };
+
+  // ---------- helpers ----------
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'local time';
+  const fmtTime = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  const fmtDateLong = (iso) => new Date(iso).toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+  const fmtDateShort = (iso) => new Date(iso).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
+  const dayKey = (iso) => { const d = new Date(iso); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  const minutes = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 60000);
+  const initials = (name) => name.replace(/^(dr|mr|mrs|ms)\.?\s+/i, '').split(/\s+/).map((w) => w[0] || '').join('').slice(0, 2).toUpperCase();
+  const colorFor = (name) => {
+    const providers = [...new Set(state.slots.map((s) => s.provider))].sort();
+    const i = providers.indexOf(name);
+    return AVATAR_COLORS[(i < 0 ? 0 : i) % AVATAR_COLORS.length];
+  };
+  const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+  const slotById = (id) => state.slots.find((s) => s.id === id);
+  const upcoming = () => state.slots.filter((s) => Date.parse(s.start) > Date.now());
+
+  const ICONS = {
+    ok: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6.25"/><path d="M5.5 8.2l1.7 1.7 3.3-3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    err: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6.25"/><path d="M8 4.75v4M8 11.1v.15" stroke-linecap="round"/></svg>',
+    warn: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.5l6 11H2z" stroke-linejoin="round"/><path d="M8 6.5v3M8 11.5v.1" stroke-linecap="round"/></svg>',
+    cal: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5 1.5v3M11 1.5v3" stroke-linecap="round"/></svg>',
+    clock: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.25"/><path d="M8 4.5V8l2.25 1.5" stroke-linecap="round"/></svg>',
+    user: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5.5" r="2.75"/><path d="M2.75 14c.6-2.6 2.7-4 5.25-4s4.65 1.4 5.25 4" stroke-linecap="round"/></svg>',
+    copy: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 5.5V3.75A1.25 1.25 0 0 0 9.25 2.5h-5.5A1.25 1.25 0 0 0 2.5 3.75v5.5c0 .69.56 1.25 1.25 1.25H5.5"/></svg>',
+    check: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>',
+  };
+
+  function toast(message, kind = 'ok', ms = 4200) {
+    const el = document.createElement('div');
+    el.className = 'toast ' + kind;
+    el.setAttribute('role', kind === 'err' ? 'alert' : 'status');
+    el.innerHTML = ICONS[kind] + '<div>' + esc(message) + '</div>';
+    $('toasts').appendChild(el);
+    setTimeout(() => el.remove(), ms);
   }
-  function saveKey(k) {
-    try { localStorage.setItem('clinicApiKey', k); } catch (e) { /* storage unavailable; key stays in the field */ }
-  }
-  $('apiKey').value = loadKey();
 
-  function apiKey() { return $('apiKey').value.trim(); }
-
-  async function api(method, url, body, extraHeaders) {
-    const headers = Object.assign({ 'X-API-Key': apiKey() }, extraHeaders || {});
-    if (body !== undefined) headers['Content-Type'] = 'application/json';
-    const res = await fetch(url, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
+  async function api(method, path, body, headers) {
+    const h = Object.assign({ 'X-API-Key': state.key }, headers || {});
+    if (body !== undefined) h['Content-Type'] = 'application/json';
+    const res = await fetch(path, { method, headers: h, body: body === undefined ? undefined : JSON.stringify(body) });
     let data = null;
-    try { data = await res.json(); } catch (e) { /* no JSON body */ }
-    return { ok: res.ok, status: res.status, data, retryAfter: res.headers.get('Retry-After') };
+    try { data = await res.json(); } catch (e) { /* empty body */ }
+    if (res.status === 401) handleUnauthorized();
+    return { ok: res.ok, status: res.status, data, retryAfter: Number(res.headers.get('Retry-After')) || 0 };
   }
 
-  function fmt(iso) {
-    return new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-  }
-  function esc(s) {
-    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
-  function msg(el, text, kind) {
-    el.innerHTML = text ? '<div class="msg ' + kind + '">' + esc(text) + '</div>' : '';
-  }
-  function updateBookButton() {
-    const slot = state.slots.find((s) => s.id === state.selectedId);
-    $('bookBtn').disabled = !(slot && slot.available);
+  // ---------- connection ----------
+  function setStatus(kind, label) {
+    const el = $('status');
+    el.className = 'status' + (kind ? ' ' + kind : '');
+    el.querySelector('.label').textContent = label;
   }
 
-  function renderSlots() {
-    const filter = $('providerFilter').value;
-    const list = $('slots');
-    const visible = state.slots.filter((s) => !filter || s.provider === filter);
-    if (!visible.length) {
-      list.innerHTML = '<li class="muted">No slots to show.</li>';
+  function showConnect(message) {
+    $('view-connect').hidden = false;
+    $('view-book').hidden = true;
+    $('view-manage').hidden = true;
+    $('tabs').hidden = true;
+    $('changeKey').hidden = true;
+    setStatus(message ? 'err' : '', message ? 'Key rejected' : 'Not connected');
+    $('apiKeyHint').textContent = message || '';
+    $('apiKeyHint').className = 'hint' + (message ? ' err' : '');
+    $('apiKey').setAttribute('aria-invalid', message ? 'true' : 'false');
+    setTimeout(() => $('apiKey').focus(), 0);
+  }
+
+  function handleUnauthorized() {
+    store.del('clinicApiKey');
+    state.key = '';
+    showConnect('That key was not accepted. Check it and try again.');
+  }
+
+  function showApp() {
+    $('view-connect').hidden = true;
+    $('tabs').hidden = false;
+    $('changeKey').hidden = false;
+    setStatus('ok', 'Connected');
+    selectTab(location.hash === '#manage' ? 'manage' : 'book');
+  }
+
+  $('connectForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const key = $('apiKey').value.trim();
+    if (!key) {
+      $('apiKeyHint').textContent = 'Enter the API key.';
+      $('apiKeyHint').className = 'hint err';
+      $('apiKey').setAttribute('aria-invalid', 'true');
       return;
     }
-    list.innerHTML = visible.map((s) => {
-      const selected = s.id === state.selectedId ? ' selected' : '';
-      const disabled = s.available ? 'false' : 'true';
-      const tag = s.available ? '<span class="tag free">Free</span>' : '<span class="tag taken">Booked</span>';
-      return '<li class="slot' + selected + '" data-id="' + esc(s.id) + '" aria-disabled="' + disabled + '">' +
-        '<span><strong>' + esc(fmt(s.start)) + '</strong><br><span class="muted">' + esc(s.provider) + '</span></span>' + tag + '</li>';
+    const btn = $('connectBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Connecting';
+    state.key = key;
+    const ok = await loadSlots(true);
+    btn.disabled = false;
+    btn.textContent = 'Connect';
+    if (ok) {
+      store.set('clinicApiKey', key);
+      $('apiKey').value = '';
+      showApp();
+      toast('Connected. Pick a time to book.');
+    }
+  });
+
+  $('changeKey').addEventListener('click', () => {
+    store.del('clinicApiKey');
+    state.key = '';
+    showConnect();
+  });
+
+  // ---------- tabs ----------
+  function selectTab(name) {
+    const isBook = name === 'book';
+    $('tab-book').setAttribute('aria-selected', String(isBook));
+    $('tab-manage').setAttribute('aria-selected', String(!isBook));
+    $('view-book').hidden = !isBook;
+    $('view-manage').hidden = isBook;
+    history.replaceState(null, '', isBook ? location.pathname : '#manage');
+    if (!isBook && !$('findEmail').value) $('findEmail').value = store.get('clinicEmail');
+  }
+  $('tab-book').addEventListener('click', () => selectTab('book'));
+  $('tab-manage').addEventListener('click', () => selectTab('manage'));
+  $('tabs').addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const next = $('tab-book').getAttribute('aria-selected') === 'true' ? 'manage' : 'book';
+    selectTab(next);
+    $('tab-' + next).focus();
+  });
+
+  // ---------- slots ----------
+  function renderSkeleton() {
+    $('days').innerHTML = Array.from({ length: 5 }, () => '<div class="skeleton" style="height:66px"></div>').join('');
+    $('times').innerHTML = '<div class="skeleton" style="height:20px;width:140px;margin-bottom:12px"></div>' +
+      '<div class="times">' + Array.from({ length: 6 }, () => '<div class="skeleton" style="height:40px"></div>').join('') + '</div>';
+  }
+
+  async function loadSlots(fromConnect) {
+    if (!state.slots.length) renderSkeleton();
+    let r;
+    try {
+      r = await api('GET', '/slots');
+    } catch (e) {
+      if (fromConnect) { $('apiKeyHint').textContent = 'Could not reach the server. Check your connection.'; $('apiKeyHint').className = 'hint err'; }
+      else toast('Could not reach the server. Check your connection.', 'err');
+      return false;
+    }
+    if (!r.ok) {
+      if (r.status !== 401) toast((r.data && r.data.error) || 'Could not load slots.', 'err');
+      return false;
+    }
+    state.slots = r.data.slots;
+    if (state.selectedId) {
+      const sel = slotById(state.selectedId);
+      if (!sel || !sel.available) state.selectedId = null;
+    }
+    renderProviders();
+    renderDays();
+    renderTimes();
+    renderSummary();
+    return true;
+  }
+
+  function renderProviders() {
+    const providers = [...new Set(upcoming().map((s) => s.provider))].sort();
+    if (state.provider !== 'all' && !providers.includes(state.provider)) state.provider = 'all';
+    const items = [['all', 'All providers']].concat(providers.map((p) => [p, p]));
+    $('providers').innerHTML = items.map(([value, label]) =>
+      '<button type="button" class="seg" data-provider="' + esc(value) + '" aria-pressed="' + (state.provider === value) + '">' + esc(label) + '</button>'
+    ).join('');
+  }
+
+  function visibleSlots() {
+    return upcoming().filter((s) => state.provider === 'all' || s.provider === state.provider);
+  }
+
+  function renderDays() {
+    const byDay = new Map();
+    for (const s of visibleSlots()) {
+      const k = dayKey(s.start);
+      if (!byDay.has(k)) byDay.set(k, { iso: s.start, free: 0, total: 0 });
+      const d = byDay.get(k);
+      d.total++;
+      if (s.available) d.free++;
+    }
+    const keys = [...byDay.keys()].sort();
+    if (!keys.includes(state.day)) {
+      state.day = keys.find((k) => byDay.get(k).free > 0) || keys[0] || null;
+    }
+    if (!keys.length) { $('days').innerHTML = ''; return; }
+    $('days').innerHTML = keys.map((k) => {
+      const d = byDay.get(k);
+      const dt = new Date(d.iso);
+      const dow = dt.toLocaleDateString(undefined, { weekday: 'short' });
+      const date = dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+      const count = d.free === 0 ? 'Fully booked' : d.free + ' free';
+      return '<button type="button" class="day" data-day="' + k + '" aria-pressed="' + (state.day === k) + '"' + (d.free === 0 ? ' disabled' : '') +
+        ' aria-label="' + esc(dow + ' ' + date + ', ' + count) + '">' +
+        '<span class="dow">' + esc(dow) + '</span><span class="date">' + esc(date) + '</span><span class="count">' + esc(count) + '</span></button>';
     }).join('');
   }
 
-  function fillProviders() {
-    const current = $('providerFilter').value;
-    const providers = [...new Set(state.slots.map((s) => s.provider))].sort();
-    $('providerFilter').innerHTML = '<option value="">All providers</option>' +
-      providers.map((p) => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('');
-    $('providerFilter').value = providers.includes(current) ? current : '';
-  }
-
-  async function loadSlots() {
-    if (!apiKey()) { $('slots').innerHTML = '<li class="muted">Enter the API key to load slots.</li>'; return; }
-    const r = await api('GET', '/slots');
-    if (!r.ok) {
-      $('slots').innerHTML = '<li class="muted">Could not load slots (' + r.status + '). Check the API key.</li>';
+  function renderTimes() {
+    const slots = visibleSlots().filter((s) => dayKey(s.start) === state.day);
+    if (!slots.length) {
+      $('times').innerHTML = '<div class="empty">' + ICONS.search.replace('<svg', '<svg aria-hidden="true"') +
+        '<strong>No upcoming appointments</strong>Check back later, or try another provider.</div>';
       return;
     }
-    state.slots = r.data.slots;
-    fillProviders();
-    renderSlots();
+    const groups = new Map();
+    for (const s of slots) {
+      if (!groups.has(s.provider)) groups.set(s.provider, []);
+      groups.get(s.provider).push(s);
+    }
+    $('times').innerHTML = [...groups.entries()].map(([provider, list]) => {
+      const free = list.filter((s) => s.available).length;
+      return '<div class="provider-group">' +
+        '<div class="provider-name"><span class="avatar" style="background:' + colorFor(provider) + '" aria-hidden="true">' + esc(initials(provider)) + '</span>' +
+        '<div>' + esc(provider) + '<br><small>' + free + ' of ' + list.length + ' available</small></div></div>' +
+        '<div class="times">' + list.map((s) => {
+          const label = fmtTime(s.start) + ' with ' + s.provider + (s.available ? '' : ', booked');
+          return '<button type="button" class="time" data-slot="' + esc(s.id) + '" aria-pressed="' + (state.selectedId === s.id) + '"' +
+            (s.available ? '' : ' disabled') + ' aria-label="' + esc(label) + '">' + esc(fmtTime(s.start)) + '</button>';
+        }).join('') + '</div></div>';
+    }).join('');
+  }
+
+  function setStep(n) {
+    document.querySelectorAll('#steps li[data-step]').forEach((li) => {
+      const step = Number(li.dataset.step);
+      li.className = step < n ? 'done' : step === n ? 'active' : '';
+      li.querySelector('.n').innerHTML = step < n ? ICONS.check.replace('stroke-width="2"', 'stroke-width="2.4" width="11" height="11"') : String(step);
+    });
+  }
+
+  function renderSummary() {
+    const s = slotById(state.selectedId);
+    const el = $('summary');
+    const confirmed = !$('confirmCard').hidden;
+    if (!s) {
+      el.className = 'summary placeholder';
+      el.textContent = 'Select a time to continue';
+      setStep(confirmed ? 3 : 1);
+    } else {
+      el.className = 'summary filled';
+      el.innerHTML =
+        '<div class="summary-row">' + ICONS.user + '<div><strong>' + esc(s.provider) + '</strong><span>Consultation</span></div></div>' +
+        '<div class="summary-row">' + ICONS.cal + '<div><strong>' + esc(fmtDateLong(s.start)) + '</strong><span>' + esc(tz) + '</span></div></div>' +
+        '<div class="summary-row">' + ICONS.clock + '<div><strong>' + esc(fmtTime(s.start) + ' – ' + fmtTime(s.end)) + '</strong><span>' + minutes(s.start, s.end) + ' minutes</span></div></div>';
+      setStep(2);
+    }
     updateBookButton();
   }
 
-  $('saveKey').addEventListener('click', () => { saveKey(apiKey()); loadSlots(); });
-  $('refresh').addEventListener('click', loadSlots);
-  $('providerFilter').addEventListener('change', renderSlots);
-
-  $('slots').addEventListener('click', (e) => {
-    const li = e.target.closest('.slot');
-    if (!li) return;
-    const slot = state.slots.find((s) => s.id === li.dataset.id);
-    if (!slot || !slot.available) return;
-    state.selectedId = slot.id;
-    renderSlots();
-    updateBookButton();
+  $('providers').addEventListener('click', (e) => {
+    const b = e.target.closest('.seg');
+    if (!b) return;
+    state.provider = b.dataset.provider;
+    const sel = slotById(state.selectedId);
+    if (sel && state.provider !== 'all' && sel.provider !== state.provider) state.selectedId = null;
+    renderProviders(); renderDays(); renderTimes(); renderSummary();
   });
 
-  function showBooking(b, title) {
-    const box = $('confirmation');
-    box.classList.remove('hidden');
-    const slot = state.slots.find((s) => s.id === b.slot_id);
-    const when = slot ? fmt(slot.start) + ' with ' + slot.provider : b.slot_id;
-    box.innerHTML = '<h2 style="margin-top:0">' + esc(title) + '</h2>' +
-      '<dl>' +
-      '<dt>Booking ID</dt><dd>' + esc(b.id) + '</dd>' +
-      '<dt>Status</dt><dd>' + esc(b.status) + '</dd>' +
-      '<dt>Slot</dt><dd>' + esc(when) + '</dd>' +
-      '<dt>Name</dt><dd>' + esc(b.name) + '</dd>' +
-      '<dt>Email</dt><dd>' + esc(b.email) + '</dd>' +
-      '</dl>' +
-      (b.status === 'confirmed' ? '<button id="cancelBtn" class="secondary" type="button">Cancel booking</button><div id="cancelMsg"></div>' : '');
-    const cancel = $('cancelBtn');
-    if (cancel) {
-      cancel.addEventListener('click', async () => {
-        const r = await api('DELETE', '/bookings/' + encodeURIComponent(b.id));
-        if (r.ok) { await loadSlots(); showBooking(r.data, 'Booking cancelled'); }
-        else { msg($('cancelMsg'), (r.data && r.data.error) || 'Cancel failed', 'err'); }
-      });
+  $('days').addEventListener('click', (e) => {
+    const b = e.target.closest('.day');
+    if (!b || b.disabled) return;
+    state.day = b.dataset.day;
+    renderDays(); renderTimes();
+  });
+
+  $('times').addEventListener('click', (e) => {
+    const b = e.target.closest('.time');
+    if (!b || b.disabled) return;
+    state.selectedId = state.selectedId === b.dataset.slot ? null : b.dataset.slot;
+    clearFormAlert();
+    renderTimes(); renderSummary();
+    if (state.selectedId && window.matchMedia('(max-width: 900px)').matches) {
+      $('bookingCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (state.selectedId && !$('name').value) setTimeout(() => $('name').focus({ preventScroll: true }), 0);
+  });
+
+  // ---------- form ----------
+  function fieldError(id, message) {
+    const input = $(id);
+    const hint = $(id + 'Hint');
+    input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    hint.className = 'hint' + (message ? ' err' : '');
+    hint.textContent = message || (id === 'email' ? "We'll use this to find your bookings." : '');
+  }
+
+  function validate(showErrors) {
+    const name = $('name').value.trim();
+    const email = $('email').value.trim();
+    const nameErr = name ? '' : 'Enter your full name.';
+    const emailErr = !email ? 'Enter your email.' : EMAIL_RE.test(email) ? '' : 'Enter a valid email, like name@example.com.';
+    if (showErrors) { fieldError('name', nameErr); fieldError('email', emailErr); }
+    return !nameErr && !emailErr;
+  }
+
+  ['name', 'email'].forEach((id) => {
+    $(id).addEventListener('blur', () => { if ($(id).value.trim()) validate(true); });
+    $(id).addEventListener('input', () => {
+      if ($(id).getAttribute('aria-invalid') === 'true') validate(true);
+      updateBookButton();
+    });
+  });
+
+  function updateBookButton() {
+    const btn = $('bookBtn');
+    if (state.submitting) return;
+    const wait = Math.ceil((state.cooldownUntil - Date.now()) / 1000);
+    if (wait > 0) {
+      btn.disabled = true;
+      btn.textContent = 'Try again in ' + wait + 's';
+      return;
+    }
+    btn.textContent = 'Confirm booking';
+    btn.disabled = !state.selectedId;
+  }
+
+  function formAlert(message, kind) {
+    $('formAlert').innerHTML = '<div class="alert ' + kind + '" role="alert">' + ICONS[kind === 'warn' ? 'warn' : 'err'] + '<div>' + esc(message) + '</div></div>';
+  }
+  function clearFormAlert() { $('formAlert').innerHTML = ''; }
+
+  function startCooldown(seconds) {
+    state.cooldownUntil = Date.now() + seconds * 1000;
+    const tick = () => {
+      updateBookButton();
+      if (Date.now() < state.cooldownUntil) setTimeout(tick, 500);
+      else clearFormAlert();
+    };
+    tick();
+  }
+
+  async function postBooking(payload) {
+    // Reuse the same Idempotency-Key if the exact same booking is retried after a network failure.
+    const hash = JSON.stringify(payload);
+    if (!state.pending || state.pending.hash !== hash) state.pending = { hash, key: uuid() };
+    let lastError;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        return await api('POST', '/bookings', payload, { 'Idempotency-Key': state.pending.key });
+      } catch (e) {
+        lastError = e;
+        await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
+      }
+    }
+    throw lastError;
   }
 
   $('bookForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    msg($('bookMsg'), '', '');
-    const name = $('name').value.trim();
-    const email = $('email').value.trim();
-    if (!state.selectedId) return msg($('bookMsg'), 'Pick a free slot first.', 'err');
-    if (!name || !email) return msg($('bookMsg'), 'Name and email are required.', 'err');
-    $('bookBtn').disabled = true;
-    const r = await api('POST', '/bookings', { slot_id: state.selectedId, name, email },
-      { 'Idempotency-Key': 'web-' + state.selectedId + '-' + email.toLowerCase() + '-' + Date.now() });
-    if (r.ok) {
+    clearFormAlert();
+    if (!state.selectedId) { formAlert('Pick a time first.', 'warn'); return; }
+    if (!validate(true)) {
+      ($('name').getAttribute('aria-invalid') === 'true' ? $('name') : $('email')).focus();
+      return;
+    }
+    const payload = { slot_id: state.selectedId, name: $('name').value.trim(), email: $('email').value.trim() };
+    const btn = $('bookBtn');
+    state.submitting = true;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Booking';
+    let r;
+    try {
+      r = await postBooking(payload);
+    } catch (err) {
+      state.submitting = false;
+      updateBookButton();
+      formAlert('We could not reach the server. Your booking was not confirmed. Try again.', 'err');
+      return;
+    }
+    state.submitting = false;
+
+    if (r.status === 201) {
+      state.pending = null;
+      store.set('clinicEmail', payload.email.toLowerCase());
+      state.selectedId = null;
+      showConfirmation(r.data);
+      loadSlots();
+      return;
+    }
+    if (r.status === 409) {
+      state.pending = null;
       state.selectedId = null;
       await loadSlots();
-      showBooking(r.data, 'Booking confirmed');
-      $('bookForm').reset();
-      msg($('bookMsg'), '', '');
-    } else {
-      let text = (r.data && r.data.error) || 'Booking failed';
-      if (r.status === 429 && r.retryAfter) text += ' Try again in ' + r.retryAfter + ' seconds.';
-      msg($('bookMsg'), text, 'err');
+      formAlert('Someone just booked that time. Please choose another.', 'warn');
+      toast('That time was just taken.', 'warn');
+      return;
+    }
+    if (r.status === 429) {
+      formAlert('Too many attempts with this email. Please wait a moment.', 'warn');
+      startCooldown(r.retryAfter || 30);
+      return;
+    }
+    if (r.status === 401) return;
+    state.pending = null;
+    if (r.status === 404 || (r.status === 400 && /started/i.test((r.data && r.data.error) || ''))) {
+      state.selectedId = null;
       await loadSlots();
     }
     updateBookButton();
+    formAlert(friendlyError(r), 'err');
   });
+
+  function friendlyError(r) {
+    const msg = (r.data && r.data.error) || '';
+    if (r.status === 404) return 'That time is no longer offered. Please choose another.';
+    if (/started/i.test(msg)) return 'That time has already started. Please choose a later one.';
+    if (/email/i.test(msg)) return 'Please check your email address.';
+    if (r.status >= 500) return 'Something went wrong on our side. Please try again.';
+    return msg ? msg.charAt(0).toUpperCase() + msg.slice(1) + '.' : 'Booking failed. Please try again.';
+  }
+
+  // ---------- confirmation ----------
+  function bookingDetailsHTML(b) {
+    const s = slotById(b.slot_id);
+    return '<dl class="details">' +
+      (s ? '<dt>When</dt><dd>' + esc(fmtDateShort(s.start) + ', ' + fmtTime(s.start) + ' – ' + fmtTime(s.end)) + '</dd>' +
+           '<dt>With</dt><dd>' + esc(s.provider) + '</dd>' : '<dt>Slot</dt><dd class="mono">' + esc(b.slot_id) + '</dd>') +
+      '<dt>Name</dt><dd>' + esc(b.name) + '</dd>' +
+      '<dt>Email</dt><dd>' + esc(b.email) + '</dd>' +
+      '<dt>Status</dt><dd><span class="badge ' + esc(b.status) + '">' + (b.status === 'confirmed' ? 'Confirmed' : 'Cancelled') + '</span></dd>' +
+      '<dt>Booking ID</dt><dd><span class="id-copy"><code class="mono">' + esc(b.id) + '</code>' +
+        '<button type="button" class="icon-btn" data-copy="' + esc(b.id) + '" aria-label="Copy booking ID">' + ICONS.copy + '</button></span></dd>' +
+      '</dl>';
+  }
+
+  function showConfirmation(b) {
+    $('bookingCard').hidden = true;
+    const card = $('confirmCard');
+    card.hidden = false;
+    const cancelled = b.status === 'cancelled';
+    card.innerHTML = '<div class="card-body">' +
+      (cancelled ? '' : '<div class="success-icon">' + ICONS.check + '</div>') +
+      '<h2>' + (cancelled ? 'Booking cancelled' : "You're booked") + '</h2>' +
+      '<p class="lede" style="font-size:13.5px;margin-top:4px">' + (cancelled ? 'The time is free for others to book.' : 'Save your booking ID to look it up later.') + '</p>' +
+      bookingDetailsHTML(b) +
+      '<div class="actions">' +
+        '<button type="button" class="btn btn-primary btn-block" id="bookAnother">Book another appointment</button>' +
+        (cancelled ? '' : '<div data-cancel-area="' + esc(b.id) + '"><button type="button" class="btn btn-danger btn-block" data-cancel="' + esc(b.id) + '">Cancel booking</button></div>') +
+      '</div></div>';
+    setStep(3);
+    $('bookAnother').addEventListener('click', resetBookingCard);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    $('bookAnother').focus({ preventScroll: true });
+  }
+
+  function resetBookingCard() {
+    $('confirmCard').hidden = true;
+    $('bookingCard').hidden = false;
+    $('bookForm').reset();
+    fieldError('name', ''); fieldError('email', '');
+    const saved = store.get('clinicEmail');
+    if (saved) $('email').value = saved;
+    clearFormAlert();
+    renderSummary();
+    $('days').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // ---------- cancel (two-step) & copy, shared by all views ----------
+  document.addEventListener('click', async (e) => {
+    const copy = e.target.closest('[data-copy]');
+    if (copy) {
+      try { await navigator.clipboard.writeText(copy.dataset.copy); toast('Booking ID copied.'); }
+      catch (err) { toast('Could not copy. Select the ID and copy it manually.', 'err'); }
+      return;
+    }
+
+    const ask = e.target.closest('[data-cancel]');
+    if (ask) {
+      const area = ask.parentElement;
+      area.innerHTML = '<div class="confirm-cancel"><p>Cancel this appointment? This cannot be undone.</p>' +
+        '<div class="inline-row"><button type="button" class="btn btn-secondary btn-sm" data-keep="' + esc(ask.dataset.cancel) + '">Keep it</button>' +
+        '<button type="button" class="btn btn-danger-solid btn-sm" data-confirm-cancel="' + esc(ask.dataset.cancel) + '">Yes, cancel</button></div></div>';
+      area.querySelector('[data-keep]').focus();
+      return;
+    }
+
+    const keep = e.target.closest('[data-keep]');
+    if (keep) {
+      const area = keep.closest('[data-cancel-area]');
+      area.innerHTML = cancelButtonHTML(keep.dataset.keep, area.dataset.compact === '1');
+      return;
+    }
+
+    const go = e.target.closest('[data-confirm-cancel]');
+    if (go) {
+      const id = go.dataset.confirmCancel;
+      go.disabled = true;
+      go.innerHTML = '<span class="spinner"></span>Cancelling';
+      let r;
+      try { r = await api('DELETE', '/bookings/' + encodeURIComponent(id)); }
+      catch (err) { toast('Could not reach the server.', 'err'); go.disabled = false; go.textContent = 'Yes, cancel'; return; }
+      if (r.ok || r.status === 409) {
+        toast(r.ok ? 'Booking cancelled.' : 'This booking was already cancelled.', r.ok ? 'ok' : 'warn');
+        const booking = r.ok ? r.data : Object.assign({}, findKnownBooking(id), { status: 'cancelled' });
+        await loadSlots();
+        updateKnownBooking(booking);
+        if (!$('confirmCard').hidden && $('confirmCard').querySelector('[data-copy="' + CSS.escape(id) + '"]')) showConfirmation(booking);
+      } else if (r.status !== 401) {
+        toast((r.data && r.data.error) || 'Could not cancel.', 'err');
+        go.disabled = false; go.textContent = 'Yes, cancel';
+      }
+    }
+  });
+
+  function cancelButtonHTML(id, compact) {
+    return '<button type="button" class="btn btn-danger ' + (compact ? 'btn-sm' : 'btn-block') + '" data-cancel="' + esc(id) + '">Cancel' + (compact ? '' : ' booking') + '</button>';
+  }
+
+  // ---------- manage ----------
+  function findKnownBooking(id) { return state.manageItems.find((b) => b.id === id) || { id }; }
+  function updateKnownBooking(b) {
+    const i = state.manageItems.findIndex((x) => x.id === b.id);
+    if (i >= 0) { state.manageItems[i] = b; renderResults(); }
+    if ($('lookupResult').querySelector('[data-copy="' + CSS.escape(b.id) + '"]')) renderLookup(b);
+  }
+
+  function listItemHTML(b) {
+    const s = slotById(b.slot_id);
+    const when = s ? fmtDateShort(s.start) + ' · ' + fmtTime(s.start) : 'Slot ' + b.slot_id;
+    const past = s && Date.parse(s.start) <= Date.now();
+    return '<li class="list-item">' +
+      '<div><div class="when">' + esc(when) + '</div>' +
+      '<div class="meta">' + (s ? '<span>' + esc(s.provider) + '</span><span aria-hidden="true">·</span>' : '') +
+        '<span class="badge ' + esc(b.status) + '">' + (b.status === 'confirmed' ? 'Confirmed' : 'Cancelled') + '</span>' +
+        '<span class="id-copy"><code class="mono" title="' + esc(b.id) + '">' + esc(b.id.slice(0, 8)) + '…</code>' +
+        '<button type="button" class="icon-btn" data-copy="' + esc(b.id) + '" aria-label="Copy booking ID">' + ICONS.copy + '</button></span></div></div>' +
+      '<div class="right" data-cancel-area="' + esc(b.id) + '" data-compact="1">' +
+        (b.status === 'confirmed' && !past ? cancelButtonHTML(b.id, true) : '') + '</div>' +
+      '</li>';
+  }
+
+  function renderResults() {
+    const el = $('results');
+    if (!state.manageItems.length) {
+      el.innerHTML = '<div class="empty">' + ICONS.search.replace('<svg', '<svg aria-hidden="true"') +
+        '<strong>No bookings found</strong>Nothing is booked under ' + esc(state.manageEmail) + ' yet.</div>';
+      return;
+    }
+    el.innerHTML = '<ul class="list">' + state.manageItems.map(listItemHTML).join('') + '</ul>' +
+      (state.manageCursor ? '<div class="card-foot" style="text-align:center"><button type="button" class="btn btn-secondary btn-sm" id="loadMore">Load more</button></div>'
+        : '<div class="card-foot">' + state.manageItems.length + ' booking' + (state.manageItems.length === 1 ? '' : 's') + '</div>');
+    const more = $('loadMore');
+    if (more) more.addEventListener('click', () => fetchBookings(true));
+  }
+
+  async function fetchBookings(append) {
+    const btn = append ? $('loadMore') : $('findBtn');
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>' + (append ? 'Loading' : 'Finding');
+    if (!append) $('results').innerHTML = '<div class="card-body">' + Array.from({ length: 3 }, () => '<div class="skeleton" style="height:44px;margin-bottom:10px"></div>').join('') + '</div>';
+    const qs = new URLSearchParams({ email: state.manageEmail, limit: '10' });
+    if (append && state.manageCursor) qs.set('cursor', state.manageCursor);
+    let r;
+    try { r = await api('GET', '/bookings?' + qs.toString()); }
+    catch (e) { toast('Could not reach the server.', 'err'); btn.disabled = false; btn.textContent = original; return; }
+    btn.disabled = false;
+    btn.textContent = original;
+    if (!r.ok) { if (r.status !== 401) toast((r.data && r.data.error) || 'Could not load bookings.', 'err'); return; }
+    state.manageItems = append ? state.manageItems.concat(r.data.bookings) : r.data.bookings;
+    state.manageCursor = r.data.next_cursor;
+    renderResults();
+  }
+
+  $('findForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = $('findEmail').value.trim();
+    if (!EMAIL_RE.test(email)) { toast('Enter a valid email address.', 'err'); $('findEmail').focus(); return; }
+    state.manageEmail = email;
+    state.manageCursor = null;
+    if (!state.slots.length) await loadSlots();
+    fetchBookings(false);
+  });
+
+  function renderLookup(b) {
+    $('lookupResult').innerHTML = bookingDetailsHTML(b).replace('class="details"', 'class="details" style="margin:0 0 16px"') +
+      (b.status === 'confirmed' ? '<div data-cancel-area="' + esc(b.id) + '">' + cancelButtonHTML(b.id, false) + '</div>' : '');
+  }
 
   $('lookupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const id = $('bookingId').value.trim();
-    if (!id) return msg($('lookupMsg'), 'Enter a booking ID.', 'err');
-    const r = await api('GET', '/bookings/' + encodeURIComponent(id));
-    if (r.ok) { msg($('lookupMsg'), '', ''); showBooking(r.data, 'Booking details'); }
-    else { msg($('lookupMsg'), (r.data && r.data.error) || 'Lookup failed', 'err'); }
+    const id = $('lookupId').value.trim();
+    if (!id) { $('lookupId').focus(); return; }
+    let r;
+    try { r = await api('GET', '/bookings/' + encodeURIComponent(id)); }
+    catch (err) { toast('Could not reach the server.', 'err'); return; }
+    if (r.ok) { if (!state.slots.length) await loadSlots(); renderLookup(r.data); }
+    else if (r.status === 404) $('lookupResult').innerHTML = '<div class="alert err" role="alert">' + ICONS.err + '<div>No booking with that ID.</div></div>';
+    else if (r.status !== 401) toast((r.data && r.data.error) || 'Lookup failed.', 'err');
   });
 
-  loadSlots();
+  // ---------- start ----------
+  $('tzLabel').textContent = 'Times in ' + tz.replace(/_/g, ' ');
+  const savedEmail = store.get('clinicEmail');
+  if (savedEmail) $('email').value = savedEmail;
+  state.key = store.get('clinicApiKey');
+  if (state.key) {
+    showApp();
+    loadSlots();
+  } else {
+    showConnect();
+  }
+  // Keep availability fresh while the page is open.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.key) loadSlots(); });
 })();
 </script>
 </body>
